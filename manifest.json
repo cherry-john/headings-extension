@@ -1,0 +1,19 @@
+{
+    "name": "Structure Corrector",
+    "description": "Highlights and corrects heading elements",
+    "version": "0.1",
+    "manifest_version": 3,
+    "permissions": [
+        "activeTab",
+        "scripting"
+    ],
+    "action": {
+        "default_title": "Headings",
+        "default_popup": "popup.html"
+    },
+    "content_scripts": [{
+        "css": ["highlighted.css"],
+        "js": ["jquery.js"],
+        "matches": ["<all_urls>"]
+    }]
+}
