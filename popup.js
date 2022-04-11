@@ -1,5 +1,10 @@
-$("#highlight").on("click", async () => {
+document.getElementById("highlight").addEventListener("click", async () => {
     let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+    chrome.scripting.insertCSS({
+        files: ["highlighted.css"],
+        target: { tabId: tab.id },
+    });
 
     chrome.scripting.executeScript({
         target: { tabId: tab.id },
@@ -7,7 +12,7 @@ $("#highlight").on("click", async () => {
     });
 });
 
-$('#correct').on("click", async () => {
+document.getElementById("correct").addEventListener("click", async () => {
     let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
     chrome.scripting.executeScript({
@@ -17,7 +22,12 @@ $('#correct').on("click", async () => {
 });
 
 const highlightHeadings = () => {
-    $(document.body).find('h1, h2, h3, h4, h5, h6').toggleClass("highlighted");
+    for (i=1; i<=6; i++) {
+        var headers = document.getElementsByTagName('h'+i);
+        for (j=0; j<headers.length; j++) {
+            headers[j].classList.toggle("highlighted");
+        }
+    }
 }
 
 const CorrectHeadings = () => {
@@ -38,8 +48,8 @@ const CorrectHeadings = () => {
     }
 
     let currentHeading = "h0";
-    let tags = $(document.body).find("h1, h2, h3, h4, h5, h6");
-    tags.each((idx, elem) => {
+    let tags =document.querySelectorAll("h1, h2, h3, h4, h5, h6");
+    tags.forEach((elem) => {
         //create replacement element
         var new_element = document.createElement(getValidHeading(elem.tagName, currentHeading));
         //add attributes
