@@ -3,12 +3,12 @@
     "description": "Highlights and corrects heading element ordering",
     "version": "0.1",
     "manifest_version": 3,
-    "permissions": [
-        "activeTab",
-        "scripting"
-    ],
+    "permissions": ["activeTab", "scripting", "declarativeContent"],
     "action": {
         "default_title": "Corrector",
         "default_popup": "popup.html"
+    },
+    "background": {
+        "service_worker": "background.js"
     }
 }
