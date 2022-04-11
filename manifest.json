@@ -1,6 +1,6 @@
 {
     "name": "Structure Corrector",
-    "description": "Highlights and corrects heading elements",
+    "description": "Highlights and corrects heading element ordering",
     "version": "0.1",
     "manifest_version": 3,
     "permissions": [
@@ -8,7 +8,7 @@
         "scripting"
     ],
     "action": {
-        "default_title": "Headings",
+        "default_title": "Corrector",
         "default_popup": "popup.html"
     }
 }

@@ -21,6 +21,21 @@ document.getElementById("correct").addEventListener("click", async () => {
     });
 });
 
+document.getElementById("save").addEventListener("click", async () => {
+    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+    chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        function: saveChanges
+    });
+});
+
+document.getElementById("reset").addEventListener("click", async () => {
+    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+    chrome.tabs.reload(tab.id);
+})
+
 const highlightHeadings = () => {
     for (i=1; i<=6; i++) {
         var headers = document.getElementsByTagName('h'+i);
@@ -48,7 +63,7 @@ const CorrectHeadings = () => {
     }
 
     let currentHeading = "h0";
-    let tags =document.querySelectorAll("h1, h2, h3, h4, h5, h6");
+    let tags = document.querySelectorAll("h1, h2, h3, h4, h5, h6");
     tags.forEach((elem) => {
         //create replacement element
         var new_element = document.createElement(getValidHeading(elem.tagName, currentHeading));
@@ -65,4 +80,15 @@ const CorrectHeadings = () => {
         elem.parentNode.replaceChild(new_element, elem);
         currentHeading = new_element.tagName;
     })
+}
+
+const saveChanges = () => {
+    const dataBlob = new Blob([document.documentElement.innerHTML], {type: "text/html"});
+
+    const elem = window.document.createElement('a');
+    elem.href = window.URL.createObjectURL(dataBlob);
+    elem.download = "updatedContent.html";
+    document.body.appendChild(elem);
+    elem.click();//trigger the download
+    document.body.removeChild(elem);
 }
