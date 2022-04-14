@@ -51,22 +51,31 @@ const CorrectHeadings = () => {
      * eg if heading="h3" and currentHeading="h1", this returns "h2", as that has been missed 
      * @param {String} heading tagName to verify
      * @param {String} currentHeading current highest relevant heading tagName
+     * @param {String} previousCurrentHeading what was the previous heading before it was changed?
      * @returns {String}
      */
-    const getValidHeading = (heading, currentHeading) => {
+    const getValidHeading = (heading, currentHeading, previousCurrentHeading) => {
         const headingLevel = parseInt(heading.charAt(1));
+        const previousLevel = parseInt(previousCurrentHeading.charAt(1));
         const currentHeadingLevel = parseInt(currentHeading.charAt(1));
-        if (headingLevel <= currentHeadingLevel || headingLevel == currentHeadingLevel + 1){
-            return heading;
+        if ((headingLevel <= currentHeadingLevel || headingLevel == currentHeadingLevel + 1)){
+            if (previousLevel != headingLevel) {
+                return heading;
+            } else {
+                return currentHeading;
+            }
+            
         }
         return "h" + (currentHeadingLevel + 1).toString();
     }
 
     let currentHeading = "h0";
+    let previousCurrentHeading = "h1";//store what the previous level was before changing
     let tags = document.querySelectorAll("h1, h2, h3, h4, h5, h6");
     tags.forEach((elem) => {
         //create replacement element
-        var new_element = document.createElement(getValidHeading(elem.tagName, currentHeading));
+        var new_element = document.createElement(getValidHeading(elem.tagName, currentHeading, previousCurrentHeading));
+        previousCurrentHeading = elem.tagName;
         //add attributes
         for(var i = 0; i < elem.attributes.length; ++i){
             let attribute = elem.attributes.item(i);
