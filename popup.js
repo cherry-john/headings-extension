@@ -58,6 +58,9 @@ const CorrectHeadings = () => {
         const headingLevel = parseInt(heading.charAt(1));
         const previousLevel = parseInt(previousCurrentHeading.charAt(1));
         const currentHeadingLevel = parseInt(currentHeading.charAt(1));
+        if (previousLevel == headingLevel) {
+            return currentHeading;
+        }
         if ((headingLevel <= currentHeadingLevel || headingLevel == currentHeadingLevel + 1)){
             if (previousLevel != headingLevel) {
                 return heading;
