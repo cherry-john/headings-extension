@@ -73,7 +73,7 @@ const CorrectHeadings = () => {
     }
 
     let currentHeading = "h0";
-    let previousCurrentHeading = "h1";//store what the previous level was before changing
+    let previousCurrentHeading = "h0";//store what the previous level was before changing
     let tags = document.querySelectorAll("h1, h2, h3, h4, h5, h6");
     tags.forEach((elem) => {
         //create replacement element
